@@ -180,65 +180,54 @@
     </div>
     
     <script>
-        window.addEventListener('DOMContentLoaded', ()=>{
-            function updateTime(){
-                const date = new Date()
-                const hours = date.getHours()
-                const minutes = date.getMinutes()
-                const dayNumber = date.getDate()
+        (function() {
+            function updateTime() {
+                var date = new Date();
+                var hours = date.getHours();
+                var minutes = date.getMinutes();
+                var day = date.getDay();
+                var dateNumber = date.getDate();
+                var month = date.getMonth();
 
-                const daysOfWeek = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
-                const dayOfWeek = daysOfWeek[date.getDay()];
-                
-                const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
-                const month = months[date.getMonth()];
+                var daysOfWeek = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+                var months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
 
-                const formattedMinutes = minutes < 10 ? `0${minutes}` : minutes;
+                var time = document.querySelector('.time');
+                var dateElem = document.querySelector('.date');
 
-                
-
-                const time = document.querySelector('.time')
-                const data = document.querySelector('.date')
-
-                time.innerHTML = `${hours}:${formattedMinutes}`
-
-                data.innerHTML = `${dayOfWeek}, ${month} ${dayNumber}`
+                time.innerHTML = hours + ':' + (minutes < 10 ? '0' + minutes : minutes);
+                dateElem.innerHTML = daysOfWeek[day] + ', ' + months[month] + ' ' + dateNumber;
             }
 
             setInterval(updateTime, 1000);
-            updateTime()
+            updateTime();
 
-            document.body.addEventListener("click", () => {
-                const dateBlock = document.querySelector(".times");
-                const bg = document.querySelector(".bg");
-                const login = document.querySelector(".login");
+            document.body.onclick = function() {
+                var times = document.querySelector('.times');
+                var bg = document.querySelector('.bg');
+                var login = document.querySelector('.login');
 
-                dateBlock.classList.add("hide");
+                times.className += ' hide';
 
-                setTimeout(() => {
-                    bg.classList.add("blur");
-                    login.classList.add("active");
-                }, 500); 
-            });
+                setTimeout(function() {
+                    bg.className += ' blur';
+                    login.className += ' active';
+                }, 500);
+            };
 
-            const form = document.querySelector('.form')
+            var form = document.querySelector('.form');
+            form.onsubmit = function(e) {
+                var input = document.querySelector('.input');
+                var welcome = document.querySelector('.welcome');
 
-            form.addEventListener('submit',(e)=>{
-                const input = document.querySelector('.input')
-                const success = document.querySelector('.welcome')
+                e.preventDefault();
 
-                e.preventDefault()
-
-                if(input.value){
-                    e.target.reset()
-
-                    form.classList.add('hide')
-                    success.classList.add('show')
+                if (input.value) {
+                    form.style.display = 'none';
+                    welcome.className += ' show';
                 }
-
-            })
-
-            })
+            };
+        })();
     </script>
     
 </body>
